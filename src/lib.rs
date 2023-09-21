@@ -1,6 +1,12 @@
 pub mod parser;
 use wasm_bindgen::prelude::*;
 
+#[wasm_bindgen(start)]
+pub fn run() {
+    #[cfg(feature = "console_error_panic_hook")]
+    console_error_panic_hook::set_once();
+}
+
 #[wasm_bindgen]
 extern "C" {
     fn alert(s: &str);
@@ -51,6 +57,13 @@ impl Car {
     }
 }
 
+ impl Default for Car {
+     fn default() -> Self {
+         Self::new()
+     }
+ }
+
+
 #[wasm_bindgen]
 pub fn color(a: Car, color: usize) -> Car {
     Car {
@@ -68,6 +81,11 @@ pub fn add(a: usize, b: usize) -> usize {
 #[wasm_bindgen]
 pub fn mul(a: usize, b: usize) -> usize {
     a * b
+}
+
+#[no_mangle]
+pub extern "C" fn addc(a: usize, b: usize) -> usize {
+   a + b
 }
 
 #[cfg(test)]
